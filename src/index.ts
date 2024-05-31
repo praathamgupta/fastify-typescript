@@ -1,21 +1,18 @@
-
 import fastify from 'fastify';
 import { sendParagraph } from './controllers/messageController';
+import { consumeMessagesFromQueue } from './services/slackService'
 
-const server = fastify({ logger: true });
+const app = fastify({ logger: true });
 
-server.post('/slack/send-message', sendParagraph);
-
+app.post('/send-paragraph', sendParagraph);
 
 const start = async () => {
   try {
-    await server.listen({
-      port: 3002,
-      host: 'localhost',
-    });
-    console.log('Server is running at http://localhost:3002');
+    await app.listen({ port: 3000 });
+    await consumeMessagesFromQueue('slack_messages');
+    app.log.info('Server listening on http://localhost:3000');
   } catch (err) {
-    server.log.error(err);
+    app.log.error(err);
     process.exit(1);
   }
 };

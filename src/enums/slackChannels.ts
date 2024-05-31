@@ -1,12 +1,13 @@
+// src/enums/slackChannels.ts
 
-export enum SlackChannels {
-  General = 'general',
-  Random = 'random',
-
+// Define enum for Slack channels
+export enum Channels {
+  General = 'C0757G6109Y',
+  // Add more channels as needed
 }
 
-export const ChannelIds : {[key: string]: string} = {
-  general : 'C0757G6109Y',
-  random : 'C074SV60AEB',
-  software : 'C0754K32QUV'
+// Mapping of channel names to their corresponding IDs
+export const ChannelIds: Record<Channels, string> = {
+  [Channels.General]: 'C0757G6109Y',
+  // Add more mappings as needed
 };
