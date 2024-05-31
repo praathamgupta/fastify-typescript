@@ -9,7 +9,8 @@ interface ParagraphRequestBody {
 export const sendParagraph = async (request: FastifyRequest<{ Body: ParagraphRequestBody }>, reply: FastifyReply) => {
   const { paragraph, channel } = request.body;
 
-  try {
+  try
+  {
     await sendMessageToRabbitMQ({ paragraph, channel });
     reply.send({ success: true, message: 'Paragraph sent to RabbitMQ for processing.' });
   } catch (error) {

@@ -5,14 +5,18 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "start-ts": "ts-node src/index.ts"
+    "start-ts": "ts-node src/index.ts",
+    "consumer": "ts-node src/consumer.ts"
   },
   "dependencies": {
     "@slack/web-api": "^7.0.4",
+    "amqplib": "^0.10.4",
+    "dotenv": "^16.4.5",
     "fastify": "^4.27.0",
-    "typescript": "^4.0.0"
+    "pg": "^8.11.5"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.5",
     "@types/node": "^20.12.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
