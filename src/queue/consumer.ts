@@ -8,8 +8,7 @@ class Consumer {
 
   private constructor() {}
 
-  public static async getInstance(): Promise<Consumer>
-  {
+  public static async getInstance(): Promise<Consumer> {
     if (!Consumer.instance) {
       Consumer.instance = new Consumer();
       await Consumer.instance.connect();
@@ -24,8 +23,7 @@ class Consumer {
   }
 
   public async consumeMessages() {
-    if (!this.channel)
-    {
+    if (!this.channel) {
       throw new Error('Channel is not initialized.');
     }
 
@@ -33,15 +31,22 @@ class Consumer {
     this.channel.consume(this.queueName, async (message) => {
       if (message) {
         const messageContent = message.content.toString();
-        const { paragraph, channel } = JSON.parse(messageContent);
-        const success = await sendMessageToChannel(channel, paragraph);
-        if (success) {
-          this.channel!.ack(message);
-        } else {
+        try {
+          const { paragraph, channels, servics } = JSON.parse(messageContent);
+          const results = await sendMessageToChannel(channels, paragraph, servics);
+          const allSuccess = results.every(result => result === true);
+          if (allSuccess) {
+            this.channel!.ack(message);
+          } else {
+            this.channel!.nack(message, false, false);
+          }
+        } catch (error) {
+          console.error('Error parsing or sending message to Slack:', error);
           this.channel!.nack(message, false, false);
         }
       }
     }, { noAck: false });
   }
 }
+
 export default Consumer;
