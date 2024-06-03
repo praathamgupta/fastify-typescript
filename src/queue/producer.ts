@@ -16,7 +16,8 @@ class Producer {
     return Producer.instance;
   }
 
-  private async connect() {
+  private async connect()
+  {
     const connection = await amqp.connect(process.env.RABBITMQ_URL || 'amqp://localhost');
     this.channel = await connection.createChannel();
     await this.channel.assertQueue(this.queueName, { durable: true });
