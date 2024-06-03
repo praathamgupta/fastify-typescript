@@ -16,4 +16,4 @@ export async function sendMessageToRabbitMQ(message: any): Promise<void> {
     });
   });
 }
-//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
+//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
